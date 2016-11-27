@@ -47,10 +47,12 @@ public class NodeDTO implements Comparable<NodeDTO>{
     public int compareTo(NodeDTO o) {
         int result=0;
         if(nodeId.equals(o.nodeId)){
-            if(children.size() == o.children.size()){
-                for(int counter = 0; counter < children.size(); counter++){
-                    result = children.get(counter).compareTo(o.children.get(counter));
-                }
+            if(value.equals(o.value)) {
+                if (children.size() == o.children.size()) {
+                    for (int counter = 0; counter < children.size(); counter++) {
+                        result = children.get(counter).compareTo(o.children.get(counter));
+                    }
+                } else return -1;
             } else return -1;
         } else return -1;
         return result;

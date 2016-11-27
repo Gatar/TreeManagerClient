@@ -16,6 +16,7 @@ public interface ClientController {
     String URL_REMOVE_NODE_WITH_CHILDREN = "/treemanager/removeWithChildren/";
     String URL_REMOVE_NODE_WITHOUT_CHILDREN = "/treemanager/removeWithoutChildren/";
     String URL_CHANGE_VALUE = "/treemanager/changeValue";
+    String URL_SET_DEFAULT_TREE = "/treemanager/prepareForIntegrationTest";
 
     /**
      * Get all tree structure as JSON value.
@@ -64,4 +65,9 @@ public interface ClientController {
      * @return true - url correct, response HttpStatus.OK, false - url incorrect, response other than OK status
      */
     boolean isServerUriCorrect();
+
+    /**
+     * Set in TreeManager default tree, used for tests.
+     */
+    void setWebAPIDefaultTree();
 }

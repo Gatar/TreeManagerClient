@@ -76,4 +76,10 @@ public class ClientControllerImpl implements ClientController {
         System.out.println("Success!\n");
         return true;
     }
+
+    @Override
+    public void setWebAPIDefaultTree() {
+        final String uri = serverURL + URL_SET_DEFAULT_TREE;
+        restTemplate.getForEntity(uri,Void.class);
+    }
 }

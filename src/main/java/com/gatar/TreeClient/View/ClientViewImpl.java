@@ -19,6 +19,7 @@ public class ClientViewImpl implements ClientView{
 
     @Override
     public void provideUserInterface() {
+        clientController.setWebAPIDefaultTree();
         try {
             while (true) {
                 drawTree(clientController.getTree());
