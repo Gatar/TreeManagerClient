@@ -1,8 +1,8 @@
 package com.gatar.TreeClient.Controller;
 
-import com.gatar.TreeClient.DataTransferObject.ChangeNodeValueDTO;
-import com.gatar.TreeClient.DataTransferObject.MoveBranchDTO;
-import com.gatar.TreeClient.DataTransferObject.NodeDTO;
+import com.gatar.TreeClient.Domain.ChangeNodeValueDTO;
+import com.gatar.TreeClient.Domain.MoveBranchDTO;
+import com.gatar.TreeClient.Domain.NodeDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

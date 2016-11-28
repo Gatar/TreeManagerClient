@@ -1,11 +1,13 @@
 package com.gatar.TreeClient.View;
 
 import com.gatar.TreeClient.Controller.ClientController;
-import com.gatar.TreeClient.Controller.ClientControllerImpl;
-import com.gatar.TreeClient.DataTransferObject.ChangeNodeValueDTO;
-import com.gatar.TreeClient.DataTransferObject.MoveBranchDTO;
-import com.gatar.TreeClient.DataTransferObject.NodeDTO;
+import com.gatar.TreeClient.Domain.ChangeNodeValueDTO;
+import com.gatar.TreeClient.Domain.MoveBranchDTO;
+import com.gatar.TreeClient.Domain.NodeDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Scanner;
@@ -13,9 +15,12 @@ import java.util.Scanner;
 /**
  * Class providing UI. Used for input/output data from console and check their correctness.
  */
+@Service
 public class ClientViewImpl implements ClientView{
 
-    ClientController clientController = new ClientControllerImpl();
+    @Autowired
+    ClientController clientController;
+
 
     @Override
     public void provideUserInterface() {
@@ -45,12 +50,13 @@ public class ClientViewImpl implements ClientView{
                         proceedSetNewServerPath();
                         break;
                     default:
-                        System.exit(1);
+                        proceedShutdown();
                         break;
                 }
             }
 
-            //In case of send incorrect node values
+            //Only predictable error response from TreeManager is NOT_ACCEPTABLE in case of send non-existing
+            //node Id. It's handled here, but better would be handle each Controller method itself separately.
         }catch (HttpClientErrorException e){
             if(e.getStatusCode().equals(HttpStatus.NOT_ACCEPTABLE)){
                 System.out.println("ERROR: Node with inputed number/numbers not exist! Process canceled.\n");
@@ -122,6 +128,10 @@ public class ClientViewImpl implements ClientView{
         }while(!clientController.isServerUriCorrect());
     }
 
+    private void proceedShutdown(){
+        System.exit(1);
+    }
+
     /**
      * Read from console new server path as String and check it correctness until valid with regex.
      * @return String with data
@@ -159,7 +169,6 @@ public class ClientViewImpl implements ClientView{
     private void drawTree(NodeDTO root){
         root.print();
     }
-
     private void pressEnterToContinue()
     {
         System.out.println("Press enter to continue...");

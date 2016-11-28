@@ -1,13 +1,14 @@
 package com.gatar.TreeClient.Controller;
 
-import com.gatar.TreeClient.DataTransferObject.ChangeNodeValueDTO;
-import com.gatar.TreeClient.DataTransferObject.MoveBranchDTO;
-import com.gatar.TreeClient.DataTransferObject.NodeDTO;
+import com.gatar.TreeClient.Domain.ChangeNodeValueDTO;
+import com.gatar.TreeClient.Domain.MoveBranchDTO;
+import com.gatar.TreeClient.Domain.NodeDTO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
-
+@Controller
 public class ClientControllerImpl implements ClientController {
 
     private String serverURL = "http://localhost:8080";

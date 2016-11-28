@@ -1,4 +1,4 @@
-package com.gatar.TreeClient.DataTransferObject;
+package com.gatar.TreeClient.Domain;
 
 import java.util.LinkedList;
 
