@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Scanner;
 
@@ -23,6 +24,7 @@ public class ClientViewImpl implements ClientView{
 
     @Override
     public void provideUserInterface() {
+        checkWebAPIAvability();
         clientController.setWebAPIDefaultTree();
         try {
             while (true) {
@@ -196,6 +198,17 @@ public class ClientViewImpl implements ClientView{
         catch(Exception e){
             System.out.println("System.in.read error: " + e.toString());
         }
+    }
+
+    private void checkWebAPIAvability(){
+            System.out.println("\nTry to connect with WebAPI");
+            if(!clientController.isServerUriCorrect()){
+                System.out.println("\nConnection with WebAPI is impossible!\n");
+                pressEnterToContinue();
+                proceedSetNewServerPath();
+                provideUserInterface();
+            }
+        System.out.println("WebAPI available.\n");
     }
 
 }
