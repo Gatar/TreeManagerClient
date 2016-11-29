@@ -14,21 +14,21 @@ import org.springframework.web.client.HttpClientErrorException;
  */
 public class ClientControllerIntegrationTest {
 
-    ClientController clientController = new ClientControllerImpl();
+    final ClientController clientController = new ClientControllerImpl();
 
     //Create Nodes
-    NodeDTO rootDTO  = new NodeDTO(1,1);
-    NodeDTO node2DTO = new NodeDTO(2,3);
-    NodeDTO node3DTO = new NodeDTO(3,4);
-    NodeDTO node4DTO = new NodeDTO(4,4);
-    NodeDTO node5DTO = new NodeDTO(5,-5);
-    NodeDTO node6DTO = new NodeDTO(6,0);
-    NodeDTO node7DTO = new NodeDTO(7,0);
-    NodeDTO node8DTO = new NodeDTO(8,-15);
-    NodeDTO node9DTO = new NodeDTO(9,4);
-    NodeDTO node10DTO = new NodeDTO(10,2);
-    NodeDTO node11DTO = new NodeDTO(11,2);
-    NodeDTO node12DTO = new NodeDTO(12,-11);
+    final NodeDTO rootDTO  = new NodeDTO(1,1);
+    final NodeDTO node2DTO = new NodeDTO(2,3);
+    final NodeDTO node3DTO = new NodeDTO(3,4);
+    final NodeDTO node4DTO = new NodeDTO(4,4);
+    final NodeDTO node5DTO = new NodeDTO(5,-5);
+    final NodeDTO node6DTO = new NodeDTO(6,0);
+    final NodeDTO node7DTO = new NodeDTO(7,0);
+    final NodeDTO node8DTO = new NodeDTO(8,-15);
+    final NodeDTO node9DTO = new NodeDTO(9,4);
+    final NodeDTO node10DTO = new NodeDTO(10,2);
+    final NodeDTO node11DTO = new NodeDTO(11,2);
+    final NodeDTO node12DTO = new NodeDTO(12,-11);
 
 
 
@@ -149,6 +149,25 @@ public class ClientControllerIntegrationTest {
 
         //Compare tree from WebAPI with the same tree
         Assert.assertEquals(0,rootDTO.compareTo(clientController.getTree()));
+    }
+
+    @Test
+    public void checkH2Database() throws Exception{
+
+        //Save database, change it, load from database and check is it the same with previous
+        clientController.removeNodeWithChildren("11");
+        node10DTO.getChildren().clear();
+        node10DTO.setValue(0);
+        clientController.saveTreeInInternalDatabase();
+        clientController.removeNodeWithoutChildren("2");
+
+        //WebAPI tree was modified and test tree not, should return -1
+        Assert.assertEquals(-1,rootDTO.compareTo(clientController.getTree()));
+
+        //Load database before remove node 2, should be equal
+        clientController.loadTreeFromInternalDatabase();
+        Assert.assertEquals(0,rootDTO.compareTo(clientController.getTree()));
+
     }
 
 

@@ -5,10 +5,10 @@ import com.gatar.TreeClient.Domain.ChangeNodeValueDTO;
 import com.gatar.TreeClient.Domain.MoveBranchDTO;
 import com.gatar.TreeClient.Domain.NodeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Scanner;
 
@@ -20,7 +20,6 @@ public class ClientViewImpl implements ClientView{
 
     @Autowired
     ClientController clientController;
-
 
     @Override
     public void provideUserInterface() {
@@ -49,6 +48,12 @@ public class ClientViewImpl implements ClientView{
                     case 6:
                         proceedSetNewServerPath();
                         break;
+                    case 7:
+                        proceedSaveToInternalWebAPIDatabase();
+                        break;
+                    case 8:
+                        proceedLoadFromInternalWebAPIDatabase();
+                        break;
                     default:
                         proceedShutdown();
                         break;
@@ -61,8 +66,11 @@ public class ClientViewImpl implements ClientView{
             if(e.getStatusCode().equals(HttpStatus.NOT_ACCEPTABLE)){
                 System.out.println("ERROR: Node with inputed number/numbers not exist! Process canceled.\n");
             } else {
-                System.out.println("ERROR: Server response " + e.toString());
+                System.out.println("ERROR: Client exception " + e.toString());
             }
+        }catch(HttpServerErrorException e){
+            System.out.println("ERROR: Server exception: " + e.toString());
+        } finally {
             pressEnterToContinue();
             provideUserInterface();
         }
@@ -76,7 +84,9 @@ public class ClientViewImpl implements ClientView{
                 "4 - Remove node with children\n" +
                 "5 - Remove node without children\n" +
                 "6 - Set new server path\n" +
-                "7up - Exit\n" +
+                "7 - Save tree in internal database\n" +
+                "8 - Load tree from internatl database\n" +
+                "9 - Exit\n" +
                 "-------------------\n";
         System.out.println(menu);
     }
@@ -128,6 +138,14 @@ public class ClientViewImpl implements ClientView{
         }while(!clientController.isServerUriCorrect());
     }
 
+    private void proceedSaveToInternalWebAPIDatabase(){
+        clientController.saveTreeInInternalDatabase();
+    }
+
+    private void proceedLoadFromInternalWebAPIDatabase(){
+        clientController.loadTreeFromInternalDatabase();
+    }
+
     private void proceedShutdown(){
         System.exit(1);
     }
@@ -176,7 +194,8 @@ public class ClientViewImpl implements ClientView{
             System.in.read();
         }
         catch(Exception e){
-
+            System.out.println("System.in.read error: " + e.toString());
         }
     }
+
 }

@@ -17,6 +17,8 @@ public interface ClientController {
     String URL_REMOVE_NODE_WITHOUT_CHILDREN = "/treemanager/removeWithoutChildren/";
     String URL_CHANGE_VALUE = "/treemanager/changeValue";
     String URL_SET_DEFAULT_TREE = "/treemanager/prepareForIntegrationTest";
+    String URL_SAVE_TO_DATABASE = "/treemanager/saveToInternalDatabase";
+    String URL_LOAD_FROM_DATABASE = "/treemanager/loadFromInternalDatabase";
 
     /**
      * Get all tree structure as JSON value.
@@ -70,4 +72,14 @@ public interface ClientController {
      * Set in TreeManager default tree, used for tests.
      */
     void setWebAPIDefaultTree();
+
+    /**
+     * Save tree structure into internal H2 database of WebAPI
+     */
+    void saveTreeInInternalDatabase();
+
+    /**
+     * Load to in-memory tree, structure saved in internal H2 database of WebAPI
+     */
+    void loadTreeFromInternalDatabase();
 }

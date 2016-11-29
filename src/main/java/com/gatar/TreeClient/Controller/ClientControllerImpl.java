@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class ClientControllerImpl implements ClientController {
 
     private String serverURL = "http://localhost:8080";
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public void setServerURL(String newURL) {
@@ -38,22 +38,19 @@ public class ClientControllerImpl implements ClientController {
     @Override
     public void addLeaf(String nodeId) {
         final String uri = serverURL + URL_ADD_LEAF + nodeId ;
-
-        restTemplate.getForEntity(uri,Void.class);
+        sendEmptyGetRequest(uri);
     }
 
     @Override
     public void removeNodeWithChildren(String nodeId) {
         final String uri = serverURL + URL_REMOVE_NODE_WITH_CHILDREN + nodeId ;
-
-        restTemplate.getForEntity(uri,Void.class);
+        sendEmptyGetRequest(uri);
     }
 
     @Override
     public void removeNodeWithoutChildren(String nodeId) {
         final String uri = serverURL + URL_REMOVE_NODE_WITHOUT_CHILDREN + nodeId;
-
-        restTemplate.getForEntity(uri,Void.class);
+        sendEmptyGetRequest(uri);
     }
 
     @Override
@@ -81,6 +78,22 @@ public class ClientControllerImpl implements ClientController {
     @Override
     public void setWebAPIDefaultTree() {
         final String uri = serverURL + URL_SET_DEFAULT_TREE;
+        sendEmptyGetRequest(uri);
+    }
+
+    @Override
+    public void saveTreeInInternalDatabase() {
+        final String uri = serverURL + URL_SAVE_TO_DATABASE;
+        sendEmptyGetRequest(uri);
+    }
+
+    @Override
+    public void loadTreeFromInternalDatabase() {
+        final String uri = serverURL + URL_LOAD_FROM_DATABASE;
+        sendEmptyGetRequest(uri);
+    }
+
+    private void sendEmptyGetRequest(String uri){
         restTemplate.getForEntity(uri,Void.class);
     }
 }
