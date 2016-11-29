@@ -59,12 +59,19 @@ After start application tries to connect with server on path saved in *ClientCon
 Functionalities are mirror of TreeManager functionalities. Tree structure are get from webAPI after each modification and after application start. Menu are below.
 
 1 - Add new leaf
+
 2 - Change node value
+
 3 - Move branch
+
 4 - Remove node with children
+
 5 - Remove node without children
+
 6 - Set new server path
+
 7 - Save tree in internal database
+
 8 - Load tree from internal database
 
 
